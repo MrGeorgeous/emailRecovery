@@ -8,6 +8,11 @@ if len(sys.argv) < 2:
 
 fn = sys.argv[1]
 
+decode = True
+if len(sys.argv) >= 3:
+    if sys.argv[2] == "--encode":
+        decode = False
+
 d = dict()
 d['0'] = 'а'
 d['1'] = 'б'
@@ -42,47 +47,28 @@ d['M'] = 'э'
 d['N'] = 'ю'
 d['O'] = 'я'
 
-# d[''] = 'А'
-# d[''] = 'Б'
-# d[''] = 'В'
-# d[''] = 'Г'
-# d[''] = 'Д'
-# d[''] = 'Е'
-# d[''] = 'Ж'
-# d[''] = 'З'
-# d[''] = 'И'
-# d[''] = 'Й'
-# d[''] = 'К'
-# d[''] = 'Л'
-# d[''] = 'М'
-# d[''] = 'Н'
-# d[''] = 'О'
-# d[''] = 'П'
-# d[''] = 'Р'
-# d['!'] = 'С'
-# d[''] = 'Т'
-# d[''] = 'У'
-# d[''] = 'Ф'
-# d[''] = 'Х'
-# d[''] = 'Ц'
-# d[''] = 'Ч'
-# d[''] = 'Ш'
-# d[''] = 'Щ'
-# d[''] = 'Ъ'
-# d[''] = 'Ы'
-# d[''] = 'Ь'
-# d[''] = 'Э'
-# d['.'] = 'Ю'
-# d[''] = 'Я'
-# d[''] = ''
+if decode is False:
+    dd = dict()
+    for k in d:
+        dd[d[k]] = k
 
-with open(fn) as f:
+    for i in range(ord('А'), ord('Я')):
+        dd["" + chr(i)] = ''
+
+    d = dd
+
+with open(fn, encoding='utf-8') as f:
     s = f.read()
-    s = s.replace("  ", " ")
+    if decode is True:
+        pass
+        #s = s.replace("  ", " ")
 
     for k in d:
         if k != '' :
-            s = s.replace(" " + k, d[k])
+            if decode is True:
+                s = s.replace(" " + k, d[k])
+            else:
+                s = s.replace(k, " " + d[k])
 
     print(s)
     exit(0)
